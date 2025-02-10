@@ -5,7 +5,7 @@ class CargoDAO:
     def obtener_todos(cls):
         conexion = Conexion.obtener_conexion()
         cursor = conexion.cursor()
-        cursor.execute("SELECT * FROM cargo")
+        cursor.execute("SELECT id_cargo, cargo FROM cargo")
         cargos = cursor.fetchall()
         cursor.close()
         Conexion.liberar_conexion(conexion)

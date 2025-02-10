@@ -4,6 +4,7 @@ from persistencia.proveedorDAO import ProveedorDAO
 from persistencia.empleadoDAO import EmpleadoDAO
 from persistencia.clienteDAO import ClienteDAO
 from persistencia.muebleDAO import MuebleDAO
+from persistencia.cargoDAO import CargoDAO
 
 app = Flask(__name__, template_folder="presentacion/templates")
 app.secret_key = 'clave_secreta'
@@ -17,15 +18,16 @@ def index():
 # Inicio de sesión
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    roles = CargoDAO.obtener_todos()
     if request.method == 'POST':
-        correo = request.form['correo']
-        password = request.form['password']
-        empleado = EmpleadoDAO.autenticar(correo, password)
+        id = request.form['id']
+        rol = request.form['rol']
+        empleado = EmpleadoDAO.autenticar(id, rol)
         if empleado:
             session['empleado_id'] = empleado.id_empleado
             return redirect(url_for('admin_dashboard'))
-        return render_template('login.html', error='Credenciales incorrectas')
-    return render_template('login.html')
+        return render_template('login.html', error='Credenciales incorrectas', roles=roles)
+    return render_template('login.html', roles=roles)
 
 @app.route('/logout')
 def logout():
