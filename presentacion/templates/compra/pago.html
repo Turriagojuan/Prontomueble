@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}Simulación de Pago{% endblock %}
+
+{% block content %}
+    <h1>Simulación de Pago</h1>
+    <p>Cliente: {{ cliente.nombre }}</p>
+    <p>Total a pagar: {{ total }} USD</p>
+    
+    <form action="{{ url_for('factura') }}" method="post">
+        <input type="hidden" name="id_cliente" value="{{ cliente.id }}">
+        <input type="hidden" name="total" value="{{ total }}">
+        <label for="metodo_pago">Método de Pago:</label>
+        <select name="metodo_pago" id="metodo_pago" required>
+            <option value="tarjeta">Tarjeta de Crédito</option>
+            <option value="paypal">PayPal</option>
+            <option value="transferencia">Transferencia Bancaria</option>
+        </select>
+        <button type="submit">Realizar Pago</button>
+    </form>
+{% endblock %}

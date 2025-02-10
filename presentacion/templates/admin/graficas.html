@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block title %}Gráficos y Estadísticas{% endblock %}
+
+{% block content %}
+    <h1>Gráficos y Estadísticas</h1>
+    <a href="{{ url_for('admin_dashboard') }}" class="btn btn-secondary">Volver al Panel</a>
+    <br><br>
+
+    <h2>Ventas Mensuales</h2>
+    <canvas id="ventasMensuales"></canvas>
+
+    <h2>Muebles más Vendidos</h2>
+    <canvas id="mueblesMasVendidos"></canvas>
+
+    <h2>Clientes Nuevos por Mes</h2>
+    <canvas id="clientesNuevos"></canvas>
+
+    <h2>Vendedores con más Ventas</h2>
+    <canvas id="mejoresVendedores"></canvas>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Datos de ejemplo (Estos deben ser pasados desde el backend)
+        var ventasMensualesData = JSON.parse('{{ ventas_mensuales | tojson | safe }}');
+        var mueblesMasVendidosData = JSON.parse('{{ muebles_mas_vendidos | tojson | safe }}');
+        var clientesNuevosData = JSON.parse('{{ clientes_nuevos | tojson | safe }}');
+        var mejoresVendedoresData = JSON.parse('{{ mejores_vendedores | tojson | safe }}');
+
+        // Función para generar gráficos
+        function crearGrafico(id, tipo, etiquetas, datos, color) {
+            var ctx = document.getElementById(id).getContext('2d');
+            new Chart(ctx, {
+                type: tipo,
+                data: {
+                    labels: etiquetas,
+                    datasets: [{
+                        label: id,
+                        data: datos,
+                        backgroundColor: color,
+                        borderColor: 'rgba(0, 0, 0, 0.1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false
+                }
+            });
+        }
+
+        // Generación de gráficos
+        crearGrafico('ventasMensuales', 'line', ventasMensualesData.labels, ventasMensualesData.data, 'rgba(54, 162, 235, 0.5)');
+        crearGrafico('mueblesMasVendidos', 'bar', mueblesMasVendidosData.labels, mueblesMasVendidosData.data, 'rgba(255, 99, 132, 0.5)');
+        crearGrafico('clientesNuevos', 'bar', clientesNuevosData.labels, clientesNuevosData.data, 'rgba(75, 192, 192, 0.5)');
+        crearGrafico('mejoresVendedores', 'pie', mejoresVendedoresData.labels, mejoresVendedoresData.data, ['rgba(255, 159, 64, 0.5)', 'rgba(153, 102, 255, 0.5)', 'rgba(255, 205, 86, 0.5)']);
+    </script>
+{% endblock %}

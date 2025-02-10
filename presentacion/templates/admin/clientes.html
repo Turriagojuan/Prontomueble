@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block title %}Gestión de Clientes{% endblock %}
+
+{% block content %}
+    <h1>Gestión de Clientes</h1>
+    <a href="{{ url_for('admin_dashboard') }}" class="btn btn-secondary">Volver al Panel</a>
+    <br><br>
+    
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Dirección</th>
+                <th>Correo</th>
+                <th>Fecha de Registro</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for cliente in clientes %}
+            <tr>
+                <td>{{ cliente.id_cliente }}</td>
+                <td>{{ cliente.nombre }}</td>
+                <td>{{ cliente.apellido }}</td>
+                <td>{{ cliente.direccion }}</td>
+                <td>{{ cliente.correo }}</td>
+                <td>{{ cliente.fecha_registro }}</td>
+                <td>
+                    <a href="{{ url_for('editar_cliente', id=cliente.id_cliente) }}" class="btn btn-warning">Editar</a>
+                    <a href="{{ url_for('eliminar_cliente', id=cliente.id_cliente) }}" class="btn btn-danger" onclick="return confirm('¿Estás seguro de eliminar este cliente?')">Eliminar</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    <h2>Agregar Nuevo Cliente</h2>
+    <form method="POST" action="{{ url_for('agregar_cliente') }}">
+        <div class="form-group">
+            <label for="nombre">Nombre:</label>
+            <input type="text" class="form-control" id="nombre" name="nombre" required>
+        </div>
+        <div class="form-group">
+            <label for="apellido">Apellido:</label>
+            <input type="text" class="form-control" id="apellido" name="apellido" required>
+        </div>
+        <div class="form-group">
+            <label for="direccion">Dirección:</label>
+            <input type="text" class="form-control" id="direccion" name="direccion">
+        </div>
+        <div class="form-group">
+            <label for="correo">Correo:</label>
+            <input type="email" class="form-control" id="correo" name="correo">
+        </div>
+        <button type="submit" class="btn btn-primary">Agregar</button>
+    </form>
+{% endblock %}

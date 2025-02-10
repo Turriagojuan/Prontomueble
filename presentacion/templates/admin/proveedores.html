@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block title %}Gestión de Proveedores{% endblock %}
+
+{% block content %}
+    <h1>Gestión de Proveedores</h1>
+    <a href="{{ url_for('admin_dashboard') }}" class="btn btn-secondary">Volver al Panel</a>
+    <br><br>
+    
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Dirección</th>
+                <th>Teléfono</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for proveedor in proveedores %}
+            <tr>
+                <td>{{ proveedor.id_proveedor }}</td>
+                <td>{{ proveedor.nombre }}</td>
+                <td>{{ proveedor.direccion }}</td>
+                <td>{{ proveedor.telefono }}</td>
+                <td>
+                    <a href="{{ url_for('editar_proveedor', id=proveedor.id_proveedor) }}" class="btn btn-warning">Editar</a>
+                    <a href="{{ url_for('eliminar_proveedor', id=proveedor.id_proveedor) }}" class="btn btn-danger" onclick="return confirm('¿Estás seguro de eliminar este proveedor?')">Eliminar</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    <h2>Agregar Nuevo Proveedor</h2>
+    <form method="POST" action="{{ url_for('agregar_proveedor') }}">
+        <div class="form-group">
+            <label for="nombre">Nombre:</label>
+            <input type="text" class="form-control" id="nombre" name="nombre" required>
+        </div>
+        <div class="form-group">
+            <label for="direccion">Dirección:</label>
+            <input type="text" class="form-control" id="direccion" name="direccion">
+        </div>
+        <div class="form-group">
+            <label for="telefono">Teléfono:</label>
+            <input type="text" class="form-control" id="telefono" name="telefono">
+        </div>
+        <button type="submit" class="btn btn-primary">Agregar</button>
+    </form>
+{% endblock %}

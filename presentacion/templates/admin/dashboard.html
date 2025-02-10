@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %}Panel de Administración{% endblock %}
+
+{% block content %}
+    <h1>Panel de Administración</h1>
+    <p>Bienvenido, {{ usuario.nombre }}.</p>
+    
+    <div class="admin-menu">
+        <ul>
+            <li><a href="{{ url_for('admin_proveedores') }}">Gestionar Proveedores</a></li>
+            <li><a href="{{ url_for('admin_empleados') }}">Gestionar Empleados</a></li>
+            <li><a href="{{ url_for('admin_clientes') }}">Gestionar Clientes</a></li>
+            <li><a href="{{ url_for('admin_muebles') }}">Gestionar Muebles</a></li>
+            <li><a href="{{ url_for('admin_reportes') }}">Ver Reportes</a></li>
+            <li><a href="{{ url_for('admin_graficas') }}">Ver Gráficas</a></li>
+        </ul>
+    </div>
+{% endblock %}

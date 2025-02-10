@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Catálogo de Muebles</h2>
+    <div id="muebles-container">
+        {% for mueble in muebles %}
+        <div class="mueble">
+            <h3>{{ mueble[1] }}</h3>
+            <p>Material: {{ mueble[5] }}</p>
+            <p>Dimensiones: {{ mueble[2] }} x {{ mueble[3] }} x {{ mueble[4] }} cm</p>
+            <p>Color: {{ mueble[6] }}</p>
+            <p>Tipo: {{ mueble[7] }}</p>
+            <a href="/comprar/{{ mueble[0] }}">Comprar</a>
+        </div>
+        {% endfor %}
+    </div>
+{% endblock %}

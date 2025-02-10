@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}Reportes Mensuales{% endblock %}
+
+{% block content %}
+    <h1>Reportes Mensuales</h1>
+    <a href="{{ url_for('admin_dashboard') }}" class="btn btn-secondary">Volver al Panel</a>
+    <br><br>
+
+    <h2>Reportes Disponibles</h2>
+    <ul>
+        <li><a href="{{ url_for('reporte_ventas') }}" class="btn btn-primary">Ventas Mensuales</a></li>
+        <li><a href="{{ url_for('reporte_muebles') }}" class="btn btn-primary">Muebles más Vendidos</a></li>
+        <li><a href="{{ url_for('reporte_clientes') }}" class="btn btn-primary">Clientes Nuevos</a></li>
+        <li><a href="{{ url_for('reporte_vendedores') }}" class="btn btn-primary">Vendedores con más Ventas</a></li>
+    </ul>
+
+    <h2>Generar Reporte Personalizado</h2>
+    <form method="POST" action="{{ url_for('generar_reporte') }}">
+        <div class="form-group">
+            <label for="tipo">Tipo de Reporte:</label>
+            <select class="form-control" id="tipo" name="tipo" required>
+                <option value="ventas">Ventas Mensuales</option>
+                <option value="muebles">Muebles más Vendidos</option>
+                <option value="clientes">Clientes Nuevos</option>
+                <option value="vendedores">Vendedores con más Ventas</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="fecha_inicio">Fecha Inicio:</label>
+            <input type="date" class="form-control" id="fecha_inicio" name="fecha_inicio" required>
+        </div>
+        <div class="form-group">
+            <label for="fecha_fin">Fecha Fin:</label>
+            <input type="date" class="form-control" id="fecha_fin" name="fecha_fin" required>
+        </div>
+        <button type="submit" class="btn btn-success">Generar Reporte</button>
+    </form>
+{% endblock %}
