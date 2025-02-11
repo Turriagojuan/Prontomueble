@@ -25,6 +25,10 @@
     .card-footer {
       background-color: #e0d6c3;
     }
+    th{
+        background-color: #e0d6c3 !important;
+    }
+
   </style>
   {% block content %}
 <div class="container mt-5">
@@ -47,7 +51,7 @@
             <tr>
                 <td>{{ mueble[1] }}</td>
                 <td>{{ mueble[5] }}</td>
-                <td>{{ mueble[2] }} x {{ mueble[3] }} x {{ mueble[4] }}</td>
+                <td>{{ mueble[2] }} x {{ mueble[3] }} x {{ mueble[4] }}cm</td>
                 <td>{{ mueble[6] }}</td>
                 <td>{{ mueble[7] }}</td>
                 <td>${{ mueble[8] }}</td>
