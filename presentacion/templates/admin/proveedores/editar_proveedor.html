@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Editar Proveedor</h2>
+<form method="post">
+    <label>Nombre:</label>
+    <input type="text" name="nombre" value="{{ proveedor[1] }}" required>
+    
+    <label>Dirección:</label>
+    <input type="text" name="direccion" value="{{ proveedor[2]}}" required>
+    
+    <label>Teléfono:</label>
+    <input type="text" name="telefono" value="{{ proveedor[3]}}" required>
+    <button type="submit">Guardar Cambios</button>
+</form>
+<a href="{{ url_for('listar_proveedores') }}" class="btn btn-secondary">Volver al Panel</a>
+{% endblock %}

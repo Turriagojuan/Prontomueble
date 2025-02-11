@@ -22,11 +22,11 @@ class EmpleadoDAO:
         return empleado
 
     @classmethod
-    def agregar(cls, nombre, apellido, correo, id_cargo):
+    def agregar(cls,id ,nombre, apellido, correo, id_cargo):
         conexion = Conexion.obtener_conexion()
         cursor = conexion.cursor()
-        cursor.execute("INSERT INTO empleado (nombre, apellido, correo, id_cargo) VALUES (%s, %s, %s, %s) RETURNING id_empleado", 
-                       (nombre, apellido, correo, id_cargo))
+        cursor.execute("INSERT INTO empleado (id_empleado,nombre, apellido, correo, id_cargo) VALUES (%s, %s, %s, %s, %s) RETURNING id_empleado", 
+                       (id, nombre, apellido, correo, id_cargo))
         id_empleado = cursor.fetchone()[0]
         conexion.commit()
         cursor.close()
@@ -61,3 +61,18 @@ class EmpleadoDAO:
         cursor.close()
         Conexion.liberar_conexion(conexion)
         return empleado
+
+    @classmethod
+    @classmethod
+    def obtener_todos_con_cargo(cls):
+        conexion = Conexion.obtener_conexion()
+        cursor = conexion.cursor()
+        cursor.execute("""
+            SELECT e.id_empleado, e.nombre, e.apellido, e.correo, c.cargo AS cargo
+            FROM empleado e JOIN cargo c ON e.id_cargo = c.id_cargo
+        """)
+        empleados = cursor.fetchall()
+        cursor.close()
+        Conexion.liberar_conexion(conexion)
+        return empleados
+

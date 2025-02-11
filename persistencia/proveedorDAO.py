@@ -22,11 +22,11 @@ class ProveedorDAO:
         return proveedor
 
     @classmethod
-    def agregar(cls, nombre, direccion, telefono):
+    def agregar(cls,id, nombre, direccion, telefono):
         conexion = Conexion.obtener_conexion()
         cursor = conexion.cursor()
-        cursor.execute("INSERT INTO proveedor (nombre, direccion, telefono) VALUES (%s, %s, %s) RETURNING id_proveedor", 
-                       (nombre, direccion, telefono))
+        cursor.execute("INSERT INTO proveedor (id_proveedor, nombre, direccion, telefono) VALUES (%s,%s, %s, %s) RETURNING id_proveedor", 
+                       (id, nombre, direccion, telefono))
         id_proveedor = cursor.fetchone()[0]
         conexion.commit()
         cursor.close()

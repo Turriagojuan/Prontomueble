@@ -25,8 +25,8 @@
       bottom: 0;
       width: 100%;
     }
-    th{
-        background-color: #e0d6c3 !important;
+    th {
+      background-color: #e0d6c3 !important;
     }
   </style>
 </head>
@@ -43,29 +43,33 @@
             <li class="nav-item">
               <a class="nav-link" href="{{ url_for('index') }}">Inicio</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{{ url_for('login') }}">Iniciar Sesión</a>
-            </li>
-        
+          </ul>
+          <ul class="navbar-nav">
+            {% if session['empleado_id'] %}
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('logout') }}">Cerrar Sesión</a>
+              </li>
+            {% else %}
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('login') }}">Iniciar Sesión</a>
+              </li>
+            {% endif %}
           </ul>
         </div>
       </div>
     </nav>
   </header>
 
-
   <div class="container mt-5">
     <h1 class="text-center">¡Bienvenido a PRONTOMUEBLE!</h1>
     <p class="text-center">Gestiona proveedores, clientes, ventas y más desde esta plataforma.</p>
   </div>
 
-  
-<main>
+  <main>
     {% block content %}{% endblock %}
     <hr/>
     <hr/>
-</main>
-
+  </main>
 
   <footer>
     &copy; 2025 PRONTOMUEBLE. Todos los derechos reservados.
