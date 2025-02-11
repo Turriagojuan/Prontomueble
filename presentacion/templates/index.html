@@ -1,18 +1,62 @@
 {% extends 'base.html' %}
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<style>
+    body {
+      padding-top: 60px;
+      background-color: #fff8e4;
+    }
+    .navbar-expand-lg {
+      background-color: #a19280;
+    }
+    .navbar-brand, .nav-link {
+      color: #fff8e4 !important;
+    }
+    footer {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      background-color: #fff8e4;
+      text-align: center;
+      padding: 10px;
+    }
+    .card-title {
+      color: #81705f;
+    }
+    .card-footer {
+      background-color: #e0d6c3;
+    }
+  </style>
+  {% block content %}
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Catálogo de Muebles</h1>
 
-{% block content %}
-    <h2>Catálogo de Muebles</h2>
-    <div id="muebles-container">
-        {% for mueble in muebles %}
-        <div class="mueble">
-            <h3>{{ mueble[1] }}</h3>
-            <p>Material: {{ mueble[5] }}</p>
-            <p>Dimensiones: {{ mueble[2] }} x {{ mueble[3] }} x {{ mueble[4] }} cm</p>
-            <p>Color: {{ mueble[6] }}</p>
-            <p>Tipo: {{ mueble[7] }}</p>
-            <p>Precio: ${{ mueble[8] }}</p>
-            <a href="/comprar/{{ mueble[0] }}">Comprar</a>
-        </div>
-        {% endfor %}
-    </div>
+    <table class="table table-bordered">
+        <thead class="table-primary">
+            <tr>
+                <th>Nombre</th>
+                <th>Material</th>
+                <th>Dimensiones (cm)</th>
+                <th>Color</th>
+                <th>Tipo</th>
+                <th>Precio</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for mueble in muebles %}
+            <tr>
+                <td>{{ mueble[1] }}</td>
+                <td>{{ mueble[5] }}</td>
+                <td>{{ mueble[2] }} x {{ mueble[3] }} x {{ mueble[4] }}</td>
+                <td>{{ mueble[6] }}</td>
+                <td>{{ mueble[7] }}</td>
+                <td>${{ mueble[8] }}</td>
+                <td>
+                    <a href="/comprar/{{ mueble[0] }}" class="btn btn-outline-primary btn-sm" style="background-color: #a19280; color: #fff8e4;">Comprar</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
 {% endblock %}
