@@ -22,15 +22,15 @@
         <tbody>
             {% for cliente in clientes %}
             <tr>
-                <td>{{ cliente.id_cliente }}</td>
-                <td>{{ cliente.nombre }}</td>
-                <td>{{ cliente.apellido }}</td>
-                <td>{{ cliente.direccion }}</td>
-                <td>{{ cliente.correo }}</td>
-                <td>{{ cliente.fecha_registro }}</td>
+                <td>{{ cliente[0] }}</td>
+                <td>{{ cliente[1] }}</td>
+                <td>{{ cliente[2] }}</td>
+                <td>{{ cliente[3] }}</td>
+                <td>{{ cliente[4] }}</td>
+                <td>{{ cliente[5] }}</td>
                 <td>
-                    <a href="{{ url_for('editar_cliente', id=cliente.id_cliente) }}" class="btn btn-warning">Editar</a>
-                    <a href="{{ url_for('eliminar_cliente', id=cliente.id_cliente) }}" class="btn btn-danger" onclick="return confirm('¿Estás seguro de eliminar este cliente?')">Eliminar</a>
+                    <a href="{{ url_for('editar_cliente', id=cliente[0]) }}" class="btn btn-warning">Editar</a>
+                    <a href="{{ url_for('eliminar_cliente', id=cliente[0]) }}" class="btn btn-danger" onclick="return confirm('¿Estás seguro de eliminar este cliente?')">Eliminar</a>
                 </td>
             </tr>
             {% endfor %}
@@ -39,6 +39,10 @@
     
     <h2>Agregar Nuevo Cliente</h2>
     <form method="POST" action="{{ url_for('agregar_cliente') }}">
+        <div class="form-group">
+            <label for="id">ID:</label>
+            <input type="text" class="form-control" id="id" name="id" required>
+        </div>
         <div class="form-group">
             <label for="nombre">Nombre:</label>
             <input type="text" class="form-control" id="nombre" name="nombre" required>
@@ -57,4 +61,12 @@
         </div>
         <button type="submit" class="btn btn-primary">Agregar</button>
     </form>
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <script>
+                alert("{{ messages[0] }}");
+            </script>
+        {% endif %}
+    {% endwith %}
 {% endblock %}

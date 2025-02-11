@@ -20,10 +20,15 @@ class TipoDAO:
             return Tipo(*resultado[0])
         return None
 
-    def obtener_todos(self):
-        sql = "SELECT * FROM tipo"
-        resultados = self.conexion.ejecutar_consulta(sql)
-        return [Tipo(*fila) for fila in resultados]
+    @classmethod
+    def obtener_todos(cls):
+        conexion = Conexion.obtener_conexion()
+        cursor = conexion.cursor()
+        cursor.execute("SELECT id_tipo, nombre FROM tipo")
+        tipos = cursor.fetchall()
+        cursor.close()
+        Conexion.liberar_conexion(conexion)
+        return tipos
 
     def actualizar_tipo(self, tipo: Tipo):
         sql = """

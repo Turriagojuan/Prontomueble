@@ -22,11 +22,11 @@ class ClienteDAO:
         return cliente
 
     @classmethod
-    def agregar(cls, nombre, apellido, direccion, correo, fecha_registro):
+    def agregar(cls, id, nombre, apellido, direccion, correo):
         conexion = Conexion.obtener_conexion()
         cursor = conexion.cursor()
-        cursor.execute("INSERT INTO cliente (nombre, apellido, direccion, correo, fecha_registro) VALUES (%s, %s, %s, %s, %s) RETURNING id_cliente", 
-                       (nombre, apellido, direccion, correo, fecha_registro))
+        cursor.execute("INSERT INTO cliente (id_cliente, nombre, apellido, direccion, correo, fecha_registro) VALUES (%s, %s, %s, %s, %s, NOW()) RETURNING id_cliente", 
+                   (id, nombre, apellido, direccion, correo))
         id_cliente = cursor.fetchone()[0]
         conexion.commit()
         cursor.close()
@@ -34,11 +34,11 @@ class ClienteDAO:
         return id_cliente
 
     @classmethod
-    def actualizar(cls, id_cliente, nombre, apellido, direccion, correo, fecha_registro):
+    def actualizar(cls, id_cliente, nombre, apellido, direccion, correo):
         conexion = Conexion.obtener_conexion()
         cursor = conexion.cursor()
-        cursor.execute("UPDATE cliente SET nombre = %s, apellido = %s, direccion = %s, correo = %s, fecha_registro = %s WHERE id_cliente = %s", 
-                       (nombre, apellido, direccion, correo, fecha_registro, id_cliente))
+        cursor.execute("UPDATE cliente SET nombre = %s, apellido = %s, direccion = %s, correo = %s  WHERE id_cliente = %s", 
+                       (nombre, apellido, direccion, correo, id_cliente))
         conexion.commit()
         cursor.close()
         Conexion.liberar_conexion(conexion)

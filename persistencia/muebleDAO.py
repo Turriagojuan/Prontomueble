@@ -28,8 +28,10 @@ class MuebleDAO:
     def agregar(cls, nombre, alto, largo, ancho, id_material, id_color, id_tipo):
         conexion = Conexion.obtener_conexion()
         cursor = conexion.cursor()
-        cursor.execute("INSERT INTO mueble (nombre, alto, largo, ancho, id_material, id_color, id_tipo) VALUES (%s, %s, %s, %s, %s, %s, %s) RETURNING id_mueble", 
-                       (nombre, alto, largo, ancho, id_material, id_color, id_tipo))
+        cursor.execute("""
+                INSERT INTO mueble (nombre, alto, largo, ancho, id_material, id_color, id_tipo) 
+                VALUES (%s, %s, %s, %s, %s, %s, %s) RETURNING id_mueble
+        """, (nombre, alto, largo, ancho, id_material, id_color, id_tipo))
         id_mueble = cursor.fetchone()[0]
         conexion.commit()
         cursor.close()
@@ -53,4 +55,13 @@ class MuebleDAO:
         cursor.execute("DELETE FROM mueble WHERE id_mueble = %s", (id_mueble,))
         conexion.commit()
         cursor.close()
+        Conexion.liberar_conexion(conexion) 
+    @classmethod
+    def obtener_ultimo_id(cls):
+        conexion = Conexion.obtener_conexion()
+        cursor = conexion.cursor()
+        cursor.execute("SELECT LAST_INSERT_ID()")
+        ultimo_id = cursor.fetchone()[0]
+        cursor.close()
         Conexion.liberar_conexion(conexion)
+        return ultimo_id

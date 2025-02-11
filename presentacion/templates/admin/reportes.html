@@ -3,37 +3,116 @@
 {% block title %}Reportes Mensuales{% endblock %}
 
 {% block content %}
-    <h1>Reportes Mensuales</h1>
-    <a href="{{ url_for('admin_dashboard') }}" class="btn btn-secondary">Volver al Panel</a>
-    <br><br>
-
-    <h2>Reportes Disponibles</h2>
-    <ul>
-        <li><a href="{{ url_for('reporte_ventas') }}" class="btn btn-primary">Ventas Mensuales</a></li>
-        <li><a href="{{ url_for('reporte_muebles') }}" class="btn btn-primary">Muebles más Vendidos</a></li>
-        <li><a href="{{ url_for('reporte_clientes') }}" class="btn btn-primary">Clientes Nuevos</a></li>
-        <li><a href="{{ url_for('reporte_vendedores') }}" class="btn btn-primary">Vendedores con más Ventas</a></li>
-    </ul>
-
-    <h2>Generar Reporte Personalizado</h2>
-    <form method="POST" action="{{ url_for('generar_reporte') }}">
-        <div class="form-group">
-            <label for="tipo">Tipo de Reporte:</label>
-            <select class="form-control" id="tipo" name="tipo" required>
-                <option value="ventas">Ventas Mensuales</option>
-                <option value="muebles">Muebles más Vendidos</option>
-                <option value="clientes">Clientes Nuevos</option>
-                <option value="vendedores">Vendedores con más Ventas</option>
-            </select>
+<div class="container mt-4">
+    <h1 class="mb-4">Reportes Mensuales</h1>
+    
+    <form method="get" action="{{ url_for('reportes') }}">
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <label for="mes">Mes:</label>
+                <select class="form-control" id="mes" name="mes">
+                    {% for i in range(1, 13) %}
+                        <option value="{{ i }}" {% if i == mes %}selected{% endif %}>{{ i }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-6">
+                <label for="anio">Año:</label>
+                <select class="form-control" id="anio" name="anio">
+                    {% for i in range(2020, 2026) %}
+                        <option value="{{ i }}" {% if i == anio %}selected{% endif %}>{{ i }}</option>
+                    {% endfor %}
+                </select>
+            </div>
         </div>
-        <div class="form-group">
-            <label for="fecha_inicio">Fecha Inicio:</label>
-            <input type="date" class="form-control" id="fecha_inicio" name="fecha_inicio" required>
-        </div>
-        <div class="form-group">
-            <label for="fecha_fin">Fecha Fin:</label>
-            <input type="date" class="form-control" id="fecha_fin" name="fecha_fin" required>
-        </div>
-        <button type="submit" class="btn btn-success">Generar Reporte</button>
+        <button type="submit" class="btn btn-primary">Actualizar Reportes</button>
+        <a href="{{ url_for('admin_dashboard') }}" class="btn btn-secondary">Volver al Panel</a>
     </form>
+
+    <h2>Vendedores con más ventas</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Total Ventas</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for vendedor in vendedores %}
+            <tr>
+                <td>{{ vendedor[0] }}</td>
+                <td>{{ vendedor[1] }}</td>
+                <td>{{ vendedor[2] }}</td>
+                <td>{{ vendedor[3] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    <h2>Clientes Nuevos</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Fecha Registro</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for cliente in clientes_nuevos %}
+            <tr>
+                <td>{{ cliente[0] }}</td>
+                <td>{{ cliente[1] }}</td>
+                <td>{{ cliente[2] }}</td>
+                <td>{{ cliente[3] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h2>Clientes con mayores compras</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Total Gastado</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for cliente in clientes_top %}
+            <tr>
+                <td>{{ cliente[0] }}</td>
+                <td>{{ cliente[1] }}</td>
+                <td>{{ cliente[2] }}</td>
+                <td>${{ cliente[3] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h2>Muebles más vendidos</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Total Vendido</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for mueble in muebles_top %}
+            <tr>
+                <td>{{ mueble[0] }}</td>
+                <td>{{ mueble[1] }}</td>
+                <td>{{ mueble[2] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
 {% endblock %}
