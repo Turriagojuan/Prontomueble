@@ -1,20 +1,33 @@
 {% extends 'base.html' %}
+
 {% block content %}
-<h2>Editar Cliente</h2>
-<form method="post">
-    <label>Nombre:</label>
-    <input type="text" name="nombre" value="{{ cliente[1]}}" required>
-    
-    <label>Apellido:</label>
-    <input type="text" name="apellido" value="{{ cliente[2] }}" required>
-    
-    <label>Dirección:</label>
-    <input type="text" name="direccion" value="{{ cliente[3] }}" required>
-    
-    <label>Correo:</label>
-    <input type="email" name="correo" value="{{ cliente[4] }}" required>
-    
-    <button type="submit">Guardar Cambios</button>
-</form>
-<a href="{{ url_for('listar_clientes') }}" class="btn btn-secondary">Volver al Panel</a>
+    <div class="container mt-4">
+        <h2 class="text-center mb-4" style="color: #81705f;">Editar Cliente</h2>
+        
+        <!-- Formulario para editar cliente -->
+        <div class="card p-4" style="background-color: #e0d6c3; border: none; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);">
+            <form method="post">
+                <div class="form-group mb-3">
+                    <label for="nombre" style="color: #81705f;">Nombre:</label>
+                    <input type="text" class="form-control" id="nombre" name="nombre" value="{{ cliente[1] }}" required style="background-color: #fff8e4; border: 1px solid #a19280;">
+                </div>
+                <div class="form-group mb-3">
+                    <label for="apellido" style="color: #81705f;">Apellido:</label>
+                    <input type="text" class="form-control" id="apellido" name="apellido" value="{{ cliente[2] }}" required style="background-color: #fff8e4; border: 1px solid #a19280;">
+                </div>
+                <div class="form-group mb-3">
+                    <label for="direccion" style="color: #81705f;">Dirección:</label>
+                    <input type="text" class="form-control" id="direccion" name="direccion" value="{{ cliente[3] }}" required style="background-color: #fff8e4; border: 1px solid #a19280;">
+                </div>
+                <div class="form-group mb-3">
+                    <label for="correo" style="color: #81705f;">Correo:</label>
+                    <input type="email" class="form-control" id="correo" name="correo" value="{{ cliente[4] }}" required style="background-color: #fff8e4; border: 1px solid #a19280;">
+                </div>
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary" style="background-color: #81705f; border: none;">Guardar Cambios</button>
+                    <a href="{{ url_for('listar_clientes') }}" class="btn btn-secondary" style="background-color: #a19280; border: none;">Volver al Panel</a>
+                </div>
+            </form>
+        </div>
+    </div>
 {% endblock %}

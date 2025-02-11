@@ -4,38 +4,53 @@
 
 {% block content %}
 <div class="container mt-4">
-    <h1>Gráficas de Muebles Más Vendidos</h1>
+    <h1 class="text-center mb-4" style="color: #81705f;">Gráficas de Muebles Más Vendidos</h1>
     
-    <form method="get" action="{{ url_for('graficas') }}">
-        <div class="row mb-4">
-            <div class="col-md-6">
-                <label for="mes">Mes:</label>
-                <select class="form-control" id="mes" name="mes">
-                    {% for i in range(1, 13) %}
-                        <option value="{{ i }}" {% if i == mes %}selected{% endif %}>{{ i }}</option>
-                    {% endfor %}
-                </select>
+    <!-- Formulario para seleccionar mes y año -->
+    <div class="card p-4 mb-4" style="background-color: #e0d6c3; border: none; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);">
+        <form method="get" action="{{ url_for('graficas') }}">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group mb-3">
+                        <label for="mes" style="color: #81705f;">Mes:</label>
+                        <select class="form-control" id="mes" name="mes" style="background-color: #fff8e4; border: 1px solid #a19280;">
+                            {% for i in range(1, 13) %}
+                                <option value="{{ i }}" {% if i == mes %}selected{% endif %}>{{ i }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group mb-3">
+                        <label for="anio" style="color: #81705f;">Año:</label>
+                        <select class="form-control" id="anio" name="anio" style="background-color: #fff8e4; border: 1px solid #a19280;">
+                            {% for i in range(2020, 2026) %}
+                                <option value="{{ i }}" {% if i == anio %}selected{% endif %}>{{ i }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
             </div>
-            <div class="col-md-6">
-                <label for="anio">Año:</label>
-                <select class="form-control" id="anio" name="anio">
-                    {% for i in range(2020, 2026) %}
-                        <option value="{{ i }}" {% if i == anio %}selected{% endif %}>{{ i }}</option>
-                    {% endfor %}
-                </select>
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary" style="background-color: #81705f; border: none;">Actualizar Reportes</button>
+                <a href="{{ url_for('admin_dashboard') }}" class="btn btn-secondary" style="background-color: #a19280; border: none;">Volver al Panel</a>
             </div>
-        </div>
-        <button type="submit" class="btn btn-primary">Actualizar Reportes</button>
-        <a href="{{ url_for('admin_dashboard') }}" class="btn btn-secondary">Volver al Panel</a>
-    </form>
+        </form>
+    </div>
 
+    <!-- Gráfica de muebles más vendidos -->
     {% if muebles_top %}
-        <div id="mueblesChart" style="width: 100%; height: 500px;"></div>
+        <div class="card p-4 mb-4" style="background-color: #e0d6c3; border: none; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);">
+            <div id="mueblesChart" style="width: 100%; height: 500px;"></div>
+        </div>
     {% else %}
-        <p class="alert alert-warning">No hay datos disponibles para mostrar.</p>
+        <div class="alert alert-warning text-center" style="background-color: #fff8e4; border: 1px solid #a19280; color: #81705f;">
+            No hay datos disponibles para mostrar.
+        </div>
     {% endif %}
 </div>
 
+<!-- Cargar Google Charts -->
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript">
     google.charts.load('current', {'packages':['corechart']});
@@ -51,9 +66,13 @@
 
         var options = {
             title: 'Muebles Más Vendidos',
-            hAxis: {title: 'Muebles', titleTextStyle: {color: '#333'}},
-            vAxis: {title: 'Cantidad Vendida', minValue: 0},
-            chartArea: {width: '70%', height: '70%'}
+            titleTextStyle: {color: '#81705f', fontSize: 18},
+            hAxis: {title: 'Muebles', titleTextStyle: {color: '#81705f'}},
+            vAxis: {title: 'Cantidad Vendida', titleTextStyle: {color: '#81705f'}, minValue: 0},
+            chartArea: {width: '70%', height: '70%'},
+            colors: ['#a19280'], // Color de las barras
+            backgroundColor: '#fff8e4', // Fondo de la gráfica
+            legend: {textStyle: {color: '#81705f'}},
         };
 
         var chart = new google.visualization.ColumnChart(document.getElementById('mueblesChart'));

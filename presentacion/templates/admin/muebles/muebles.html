@@ -3,111 +3,149 @@
 {% block title %}Gestión de Muebles{% endblock %}
 
 {% block content %}
-    <h1>Gestión de Muebles</h1>
-    <a href="{{ url_for('admin_dashboard') }}" class="btn btn-secondary">Volver al Panel</a>
-    <br><br>
-    
-    <table class="table">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nombre</th>
-                <th>Material</th>
-                <th>Color</th>
-                <th>Precio</th>
-                <th>Cantidad</th>
-                <th>Tipo</th>
-                <th>Alto</th>
-                <th>Largo</th>
-                <th>Ancho</th>
-                <th>Proveedor</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for mueble in muebles %}
-            <tr>
-                <td>{{ mueble[0] }}</td>
-                <td>{{ mueble[1] }}</td>
-                <td>{{ mueble[2] }}</td>
-                <td>{{ mueble[3] }}</td>
-                <td>{{ mueble[4] }}</td>
-                <td>{{ mueble[5] }}</td>
-                <td>{{ mueble[6] }}</td>
-                <td>{{ mueble[7] }}</td>
-                <td>{{ mueble[8] }}</td>
-                <td>{{ mueble[9] }}</td>
-                <td>{{ mueble[10] }}</td>
-                <td>
-                    <a href="{{ url_for('editar_mueble', id=mueble[0]) }}" class="btn btn-warning">Editar</a>
-                    <a href="{{ url_for('eliminar_mueble', id=mueble[0]) }}" class="btn btn-danger" onclick="return confirm('¿Estás seguro de eliminar este mueble?')">Eliminar</a>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    
-    <h2>Agregar Nuevo Mueble</h2>
-    <form method="POST" action="{{ url_for('agregar_mueble') }}">
-        <div class="form-group">
-            <label for="nombre">Nombre:</label>
-            <input type="text" class="form-control" id="nombre" name="nombre" required>
-        </div>
-        <div class="form-group">
-            <label for="material">Material:</label>
-            <select class="form-control" id="material" name="material" required>
-                {% for material in materiales %}
-                    <option value="{{ material[0] }}">{{ material[1] }}</option>
-                {% endfor %}
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="color">Color:</label>
-            <select class="form-control" id="color" name="color" required>
-                {% for color in colores %}
-                    <option value="{{ color[0] }}">{{ color[1] }}</option>
-                {% endfor %}
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="precio">Precio:</label>
-            <input type="number" class="form-control" id="precio" name="precio" required>
-        </div>
-        <div class="form-group">
-            <label for="cantidad">Cantidad:</label>
-            <input type="number" class="form-control" id="cantidad" name="cantidad" required>
-        </div>
-        <div class="form-group">
-            <label for="tipo">Tipo:</label>
-            <select class="form-control" id="tipo" name="tipo" required>
-                {% for tipo in tipos %}
-                    <option value="{{ tipo[0] }}">{{ tipo[1] }}</option>
-                {% endfor %}
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="alto">Alto:</label>
-            <input type="number" class="form-control" id="alto" name="alto" required>
-        </div>
-        <div class="form-group">
-            <label for="largo">Largo:</label>
-            <input type="number" class="form-control" id="largo" name="largo" required>
-        </div>
-        <div class="form-group">
-            <label for="ancho">Ancho:</label>
-            <input type="number" class="form-control" id="ancho" name="ancho" required>
-        </div>
-        <div class="form-group">
-            <label for="proveedor">Proveedor:</label>
-            <select class="form-control" id="proveedor" name="proveedor" required>
-                {% for proveedor in proveedores %}
-                    <option value="{{ proveedor[0] }}">{{ proveedor[1] }}</option>
-                {% endfor %}
-            </select>
-        </div>
-        <button type="submit" class="btn btn-primary">Agregar</button>
-    </form>
+    <div class="container mt-4 position-relative">
+        <!-- Botón para volver al panel (esquina superior derecha) -->
+        <a href="{{ url_for('admin_dashboard') }}" class="btn btn-secondary position-absolute top-0 end-0 m-3" style="background-color: #a19280; border: none;">
+            Volver al Panel
+        </a>
 
+        <h1 class="text-center mb-4" style="color: #81705f;">Gestión de Muebles</h1>
+
+        <!-- Tabla de muebles -->
+        <div class="table-responsive">
+            <table class="table table-hover table-bordered" style="background-color: #fff8e4; color: #81705f;">
+                <thead class="thead-light" style="background-color: #e0d6c3;">
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Material</th>
+                        <th>Color</th>
+                        <th>Precio</th>
+                        <th>Cantidad</th>
+                        <th>Tipo</th>
+                        <th>Alto</th>
+                        <th>Largo</th>
+                        <th>Ancho</th>
+                        <th>Proveedor</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for mueble in muebles %}
+                    <tr>
+                        <td>{{ mueble[0] }}</td>
+                        <td>{{ mueble[1] }}</td>
+                        <td>{{ mueble[2] }}</td>
+                        <td>{{ mueble[3] }}</td>
+                        <td>{{ mueble[4] }}</td>
+                        <td>{{ mueble[5] }}</td>
+                        <td>{{ mueble[6] }}</td>
+                        <td>{{ mueble[7] }}</td>
+                        <td>{{ mueble[8] }}</td>
+                        <td>{{ mueble[9] }}</td>
+                        <td>{{ mueble[10] }}</td>
+                        <td>
+                            <a href="{{ url_for('editar_mueble', id=mueble[0]) }}" class="btn btn-warning btn-sm" style="background-color: #c0b4a1; border: none;">Editar</a>
+                            <a href="{{ url_for('eliminar_mueble', id=mueble[0]) }}" class="btn btn-danger btn-sm" style="background-color: #81705f; border: none;" onclick="return confirm('¿Estás seguro de eliminar este mueble?')">Eliminar</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Formulario para agregar nuevo mueble -->
+        <h2 class="mt-5 mb-3" style="color: #81705f;">Agregar Nuevo Mueble</h2>
+        <form method="POST" action="{{ url_for('agregar_mueble') }}" class="mb-5">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="nombre" style="color: #81705f;">Nombre:</label>
+                        <input type="text" class="form-control" id="nombre" name="nombre" required style="background-color: #fff8e4; border: 1px solid #a19280;">
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="material" style="color: #81705f;">Material:</label>
+                        <select class="form-control" id="material" name="material" required style="background-color: #fff8e4; border: 1px solid #a19280;">
+                            {% for material in materiales %}
+                                <option value="{{ material[0] }}">{{ material[1] }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="color" style="color: #81705f;">Color:</label>
+                        <select class="form-control" id="color" name="color" required style="background-color: #fff8e4; border: 1px solid #a19280;">
+                            {% for color in colores %}
+                                <option value="{{ color[0] }}">{{ color[1] }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="precio" style="color: #81705f;">Precio:</label>
+                        <input type="number" class="form-control" id="precio" name="precio" required style="background-color: #fff8e4; border: 1px solid #a19280;">
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="cantidad" style="color: #81705f;">Cantidad:</label>
+                        <input type="number" class="form-control" id="cantidad" name="cantidad" required style="background-color: #fff8e4; border: 1px solid #a19280;">
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="tipo" style="color: #81705f;">Tipo:</label>
+                        <select class="form-control" id="tipo" name="tipo" required style="background-color: #fff8e4; border: 1px solid #a19280;">
+                            {% for tipo in tipos %}
+                                <option value="{{ tipo[0] }}">{{ tipo[1] }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="alto" style="color: #81705f;">Alto:</label>
+                        <input type="number" class="form-control" id="alto" name="alto" required style="background-color: #fff8e4; border: 1px solid #a19280;">
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="largo" style="color: #81705f;">Largo:</label>
+                        <input type="number" class="form-control" id="largo" name="largo" required style="background-color: #fff8e4; border: 1px solid #a19280;">
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="ancho" style="color: #81705f;">Ancho:</label>
+                        <input type="number" class="form-control" id="ancho" name="ancho" required style="background-color: #fff8e4; border: 1px solid #a19280;">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="proveedor" style="color: #81705f;">Proveedor:</label>
+                        <select class="form-control" id="proveedor" name="proveedor" required style="background-color: #fff8e4; border: 1px solid #a19280;">
+                            {% for proveedor in proveedores %}
+                                <option value="{{ proveedor[0] }}">{{ proveedor[1] }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary mt-3" style="background-color: #81705f; border: none;">Agregar</button>
+        </form>
+    </div>
+
+    <!-- Mensajes flash -->
     {% with messages = get_flashed_messages() %}
         {% if messages %}
             <script>

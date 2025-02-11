@@ -4,115 +4,168 @@
 
 {% block content %}
 <div class="container mt-4">
-    <h1 class="mb-4">Reportes Mensuales</h1>
+    <h1 class="text-center mb-4" style="color: #81705f;">Reportes Mensuales</h1>
     
-    <form method="get" action="{{ url_for('reportes') }}">
-        <div class="row mb-4">
-            <div class="col-md-6">
-                <label for="mes">Mes:</label>
-                <select class="form-control" id="mes" name="mes">
-                    {% for i in range(1, 13) %}
-                        <option value="{{ i }}" {% if i == mes %}selected{% endif %}>{{ i }}</option>
-                    {% endfor %}
-                </select>
+    <!-- Formulario para seleccionar mes y año -->
+    <div class="card p-4 mb-4" style="background-color: #e0d6c3; border: none; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);">
+        <form method="get" action="{{ url_for('reportes') }}">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group mb-3">
+                        <label for="mes" style="color: #81705f;">Mes:</label>
+                        <select class="form-control" id="mes" name="mes" style="background-color: #fff8e4; border: 1px solid #a19280;">
+                            {% for i in range(1, 13) %}
+                                <option value="{{ i }}" {% if i == mes %}selected{% endif %}>{{ i }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group mb-3">
+                        <label for="anio" style="color: #81705f;">Año:</label>
+                        <select class="form-control" id="anio" name="anio" style="background-color: #fff8e4; border: 1px solid #a19280;">
+                            {% for i in range(2020, 2026) %}
+                                <option value="{{ i }}" {% if i == anio %}selected{% endif %}>{{ i }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
             </div>
-            <div class="col-md-6">
-                <label for="anio">Año:</label>
-                <select class="form-control" id="anio" name="anio">
-                    {% for i in range(2020, 2026) %}
-                        <option value="{{ i }}" {% if i == anio %}selected{% endif %}>{{ i }}</option>
-                    {% endfor %}
-                </select>
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary" style="background-color: #81705f; border: none;">Actualizar Reportes</button>
+                <a href="{{ url_for('admin_dashboard') }}" class="btn btn-secondary" style="background-color: #a19280; border: none;">Volver al Panel</a>
             </div>
-        </div>
-        <button type="submit" class="btn btn-primary">Actualizar Reportes</button>
-        <a href="{{ url_for('admin_dashboard') }}" class="btn btn-secondary">Volver al Panel</a>
-    </form>
+        </form>
+    </div>
 
-    <h2>Vendedores con más ventas</h2>
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nombre</th>
-                <th>Apellido</th>
-                <th>Total Ventas</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for vendedor in vendedores %}
-            <tr>
-                <td>{{ vendedor[0] }}</td>
-                <td>{{ vendedor[1] }}</td>
-                <td>{{ vendedor[2] }}</td>
-                <td>{{ vendedor[3] }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    
-    <h2>Clientes Nuevos</h2>
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nombre</th>
-                <th>Apellido</th>
-                <th>Fecha Registro</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for cliente in clientes_nuevos %}
-            <tr>
-                <td>{{ cliente[0] }}</td>
-                <td>{{ cliente[1] }}</td>
-                <td>{{ cliente[2] }}</td>
-                <td>{{ cliente[3] }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <!-- Botones para seleccionar la sección -->
+    <div class="text-center mb-4">
+        <button class="btn btn-option" data-target="vendedores" style="background-color: #c0b4a1; border: none; color: #fff8e4;">Vendedores con más ventas</button>
+        <button class="btn btn-option" data-target="clientes-nuevos" style="background-color: #c0b4a1; border: none; color: #fff8e4;">Clientes Nuevos</button>
+        <button class="btn btn-option" data-target="clientes-top" style="background-color: #c0b4a1; border: none; color: #fff8e4;">Clientes con mayores compras</button>
+        <button class="btn btn-option" data-target="muebles-top" style="background-color: #c0b4a1; border: none; color: #fff8e4;">Muebles más vendidos</button>
+    </div>
 
-    <h2>Clientes con mayores compras</h2>
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nombre</th>
-                <th>Apellido</th>
-                <th>Total Gastado</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for cliente in clientes_top %}
-            <tr>
-                <td>{{ cliente[0] }}</td>
-                <td>{{ cliente[1] }}</td>
-                <td>{{ cliente[2] }}</td>
-                <td>${{ cliente[3] }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <!-- Sección de Vendedores con más ventas -->
+    <div id="vendedores" class="report-section card p-4 mb-4" style="background-color: #e0d6c3; border: none; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);">
+        <h2 class="mb-3" style="color: #81705f;">Vendedores con más ventas</h2>
+        <table class="table table-hover" style="background-color: #fff8e4; color: #81705f;">
+            <thead style="background-color: #c0b4a1;">
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>Total Ventas</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for vendedor in vendedores %}
+                <tr>
+                    <td>{{ vendedor[0] }}</td>
+                    <td>{{ vendedor[1] }}</td>
+                    <td>{{ vendedor[2] }}</td>
+                    <td>{{ vendedor[3] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 
-    <h2>Muebles más vendidos</h2>
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nombre</th>
-                <th>Total Vendido</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for mueble in muebles_top %}
-            <tr>
-                <td>{{ mueble[0] }}</td>
-                <td>{{ mueble[1] }}</td>
-                <td>{{ mueble[2] }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <!-- Sección de Clientes Nuevos -->
+    <div id="clientes-nuevos" class="report-section card p-4 mb-4" style="background-color: #e0d6c3; border: none; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); display: none;">
+        <h2 class="mb-3" style="color: #81705f;">Clientes Nuevos</h2>
+        <table class="table table-hover" style="background-color: #fff8e4; color: #81705f;">
+            <thead style="background-color: #c0b4a1;">
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>Fecha Registro</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for cliente in clientes_nuevos %}
+                <tr>
+                    <td>{{ cliente[0] }}</td>
+                    <td>{{ cliente[1] }}</td>
+                    <td>{{ cliente[2] }}</td>
+                    <td>{{ cliente[3] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Sección de Clientes con mayores compras -->
+    <div id="clientes-top" class="report-section card p-4 mb-4" style="background-color: #e0d6c3; border: none; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); display: none;">
+        <h2 class="mb-3" style="color: #81705f;">Clientes con mayores compras</h2>
+        <table class="table table-hover" style="background-color: #fff8e4; color: #81705f;">
+            <thead style="background-color: #c0b4a1;">
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>Total Gastado</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for cliente in clientes_top %}
+                <tr>
+                    <td>{{ cliente[0] }}</td>
+                    <td>{{ cliente[1] }}</td>
+                    <td>{{ cliente[2] }}</td>
+                    <td>${{ cliente[3] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Sección de Muebles más vendidos -->
+    <div id="muebles-top" class="report-section card p-4 mb-4" style="background-color: #e0d6c3; border: none; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); display: none;">
+        <h2 class="mb-3" style="color: #81705f;">Muebles más vendidos</h2>
+        <table class="table table-hover" style="background-color: #fff8e4; color: #81705f;">
+            <thead style="background-color: #c0b4a1;">
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Total Vendido</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for mueble in muebles_top %}
+                <tr>
+                    <td>{{ mueble[0] }}</td>
+                    <td>{{ mueble[1] }}</td>
+                    <td>{{ mueble[2] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </div>
+
+<!-- JavaScript para alternar entre secciones -->
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const buttons = document.querySelectorAll(".btn-option");
+        const sections = document.querySelectorAll(".report-section");
+
+        buttons.forEach(button => {
+            button.addEventListener("click", function() {
+                // Ocultar todas las secciones
+                sections.forEach(section => {
+                    section.style.display = "none";
+                });
+
+                // Mostrar la sección correspondiente
+                const target = this.getAttribute("data-target");
+                document.getElementById(target).style.display = "block";
+            });
+        });
+
+        // Mostrar la primera sección por defecto
+        document.getElementById("vendedores").style.display = "block";
+    });
+</script>
 {% endblock %}
