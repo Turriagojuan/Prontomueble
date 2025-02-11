@@ -51,12 +51,13 @@ class EmpleadoDAO:
         conexion.commit()
         cursor.close()
         Conexion.liberar_conexion(conexion)
+
     @classmethod
-    def autenticar(cls, id_empleado, rol):
+    def autenticar(cls, id_empleado):
         conexion = Conexion.obtener_conexion()
         cursor = conexion.cursor()
-        cursor.execute("SELECT * FROM empleado WHERE id_empleado = %s AND id_cargo = %s", (id_empleado, rol))
+        cursor.execute("SELECT id_cargo FROM empleado WHERE id_empleado = %s", (id_empleado,))
         empleado = cursor.fetchone()
         cursor.close()
         Conexion.liberar_conexion(conexion)
-        return empleado is not None
+        return empleado

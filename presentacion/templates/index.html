@@ -56,9 +56,9 @@
                 <td>{{ mueble[7] }}</td>
                 <td>${{ mueble[8] }}</td>
                 <td>
-                    <a href="/comprar/{{ mueble[0] }}" class="btn btn-outline-primary btn-sm" style="background-color: #a19280; color: #fff8e4;">Comprar</a>
+                  <a href="{% if session['empleado_id'] %}/comprar/{{ mueble[0] }}{% else %}/login{% endif %}" class="btn btn-outline-primary btn-sm" style="background-color: #a19280; color: #fff8e4;">Comprar</a>
                 </td>
-            </tr>
+              </tr>
             {% endfor %}
         </tbody>
     </table>

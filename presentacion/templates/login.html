@@ -13,16 +13,9 @@
             <p class="error">{{ error }}</p>
         {% endif %}
         <form method="POST" action="{{ url_for('login') }}">
-            <label for="correo">Correo:</label>
+            <label for="id">Intruduzca su id:</label>
             <input type="text" id="id" name="id" required>
-            asdasd
-            <label for="rol">Rol:</label>
-            <select id="rol" name="rol" required>
-                {% for rol in roles %}
-                    <option value="{{ rol[0] }}">{{ rol[1] }}</option>
-                {% endfor %}
-            </select>
-            
+            <label for="rol">Rol:</label>            
             <button type="submit">Ingresar</button>
         </form>
     </div>

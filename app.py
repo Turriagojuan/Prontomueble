@@ -12,22 +12,24 @@ app.secret_key = 'clave_secreta'
 # Página principal
 @app.route('/')
 def index():
+
     muebles = MuebleDAO.obtener_todos()
     return render_template('index.html', muebles=muebles)
 
 # Inicio de sesión
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    roles = CargoDAO.obtener_todos()
     if request.method == 'POST':
         id = request.form['id']
-        rol = request.form['rol']
-        empleado = EmpleadoDAO.autenticar(id, rol)
-        if empleado:
-            session['empleado_id'] = empleado.id_empleado
+        empleado = EmpleadoDAO.autenticar(id)
+        if empleado[0] == 1:
+            session['empleado_id'] = id
             return redirect(url_for('admin_dashboard'))
-        return render_template('login.html', error='Credenciales incorrectas', roles=roles)
-    return render_template('login.html', roles=roles)
+        elif empleado[0] == 2:
+            session['empleado_id'] = id
+            return redirect(url_for('index'))
+        return render_template('login.html', error='Credenciales incorrectas')
+    return render_template('login.html')
 
 @app.route('/logout')
 def logout():
@@ -37,9 +39,10 @@ def logout():
 # Panel de administración
 @app.route('/admin')
 def admin_dashboard():
+    usuario = EmpleadoDAO.obtener_por_id(session['empleado_id'])
     if 'empleado_id' not in session:
         return redirect(url_for('login'))
-    return render_template('admin/dashboard.html')
+    return render_template('admin/dashboard.html', usuario=usuario)
 
 # CRUD Proveedores
 @app.route('/admin/proveedores')
