@@ -10,6 +10,9 @@
     body {
       padding-top: 60px;
       background-color: #fff8e4;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh; /* Asegura que el body ocupe al menos el 100% de la altura de la ventana */
     }
     .navbar {
       background-color: #a19280;
@@ -28,6 +31,10 @@
     th {
       background-color: #e0d6c3 !important;
     }
+    main {
+      flex: 1; /* Hace que el contenido principal ocupe el espacio restante */
+      padding-bottom: 60px; /* Añade un margen inferior para evitar que el footer cubra el contenido */
+    }
   </style>
 </head>
 <body>
@@ -39,12 +46,8 @@
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav me-auto">
-            <li class="nav-item">
-              <a class="nav-link" href="{{ url_for('index') }}">Inicio</a>
-            </li>
-          </ul>
-          <ul class="navbar-nav">
+          <!-- Menú de la derecha (Iniciar/Cerrar Sesión) -->
+          <ul class="navbar-nav ms-auto">
             {% if session['empleado_id'] %}
               <li class="nav-item">
                 <a class="nav-link" href="{{ url_for('logout') }}">Cerrar Sesión</a>
@@ -60,15 +63,8 @@
     </nav>
   </header>
 
-  <div class="container mt-5">
-    <h1 class="text-center">¡Bienvenido a PRONTOMUEBLE!</h1>
-    <p class="text-center">Gestiona proveedores, clientes, ventas y más desde esta plataforma.</p>
-  </div>
-
   <main>
     {% block content %}{% endblock %}
-    <hr/>
-    <hr/>
   </main>
 
   <footer>

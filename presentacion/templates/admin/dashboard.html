@@ -3,17 +3,107 @@
 {% block title %}Panel de Administración{% endblock %}
 
 {% block content %}
-    <h1>Panel de Administración</h1>
-    <p>Bienvenido, {{ usuario[1] }} {{ usuario[2] }}.</p>
-    
-    <div class="admin-menu">
-        <ul>
-            <li><a href="{{ url_for('listar_proveedores') }}">Gestionar Proveedores</a></li>
-            <li><a href="{{ url_for('listar_empleados') }}">Gestionar Empleados</a></li>
-            <li><a href="{{ url_for('listar_clientes') }}">Gestionar Clientes</a></li>
-            <li><a href="{{ url_for('listar_muebles') }}">Gestionar Muebles</a></li>
-            <li><a href="{{ url_for('reportes') }}">Ver Reportes</a></li>
-            <li><a href="{{ url_for('graficas') }}">Ver Gráficas</a></li>
-        </ul>
+    <div class="admin-panel">
+        <h1 class="admin-title">Panel de Administración</h1>
+        <p class="admin-welcome">Bienvenido, {{ usuario[1] }} {{ usuario[2] }}.</p>
+        
+        <div class="admin-menu">
+            <div class="menu-grid">
+                <a href="{{ url_for('listar_proveedores') }}" class="menu-card">
+                    <div class="card-content">
+                        <h3>Gestionar Proveedores</h3>
+                        <p>Administra la información de los proveedores.</p>
+                    </div>
+                </a>
+                <a href="{{ url_for('listar_empleados') }}" class="menu-card">
+                    <div class="card-content">
+                        <h3>Gestionar Empleados</h3>
+                        <p>Administra la información de los empleados.</p>
+                    </div>
+                </a>
+                <a href="{{ url_for('listar_clientes') }}" class="menu-card">
+                    <div class="card-content">
+                        <h3>Gestionar Clientes</h3>
+                        <p>Administra la información de los clientes.</p>
+                    </div>
+                </a>
+                <a href="{{ url_for('listar_muebles') }}" class="menu-card">
+                    <div class="card-content">
+                        <h3>Gestionar Muebles</h3>
+                        <p>Administra el catálogo de muebles.</p>
+                    </div>
+                </a>
+                <a href="{{ url_for('reportes') }}" class="menu-card">
+                    <div class="card-content">
+                        <h3>Ver Reportes</h3>
+                        <p>Consulta reportes y estadísticas.</p>
+                    </div>
+                </a>
+                <a href="{{ url_for('graficas') }}" class="menu-card">
+                    <div class="card-content">
+                        <h3>Ver Gráficas</h3>
+                        <p>Visualiza gráficos de datos.</p>
+                    </div>
+                </a>
+            </div>
+        </div>
     </div>
+
+    <style>
+        .admin-panel {
+            padding: 2rem;
+            background-color: #fff8e4; /* color5 */
+            border-radius: 10px;
+            max-width: 1200px;
+            margin: 2rem auto;
+        }
+
+        .admin-title {
+            color: #81705f; /* color1 */
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .admin-welcome {
+            color: #81705f; /* color1 */
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 1.2rem;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .menu-card {
+            background-color: #e0d6c3; /* color4 */
+            border-radius: 10px;
+            padding: 1.5rem;
+            text-decoration: none;
+            color: #81705f; /* color1 */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: block;
+        }
+
+        .menu-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .menu-card h3 {
+            margin-bottom: 0.5rem;
+            color: #81705f; /* color1 */
+        }
+
+        .menu-card p {
+            color: #a19280; /* color2 */
+            margin: 0;
+        }
+
+        .card-content {
+            text-align: center;
+        }
+    </style>
 {% endblock %}

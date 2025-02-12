@@ -1,48 +1,77 @@
 {% extends 'base.html' %}
+
 {% block content %}
-<h2>Editar Mueble</h2>
-<form method="post">
-    <div class="form-group">
-        <label for="nombre">Nombre:</label>
-        <input type="text" class="form-control" id="nombre" name="nombre" value="{{ mueble[1] }}" required>
+    <div class="container mt-4">
+        <h2 class="text-center mb-4" style="color: #81705f;">Editar Mueble</h2>
+        
+        <!-- Formulario para editar mueble -->
+        <div class="card p-4" style="background-color: #e0d6c3; border: none; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);">
+            <form method="post">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group mb-3">
+                            <label for="nombre" style="color: #81705f;">Nombre:</label>
+                            <input type="text" class="form-control" id="nombre" name="nombre" value="{{ mueble[1] }}" required style="background-color: #fff8e4; border: 1px solid #a19280;">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group mb-3">
+                            <label for="material" style="color: #81705f;">Material:</label>
+                            <select class="form-control" id="material" name="material" required style="background-color: #fff8e4; border: 1px solid #a19280;">
+                                {% for material in materiales %}
+                                    <option value="{{ material[0] }}" {% if material[0] == mueble.id_material %}selected{% endif %}>{{ material[1] }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group mb-3">
+                            <label for="color" style="color: #81705f;">Color:</label>
+                            <select class="form-control" id="color" name="color" required style="background-color: #fff8e4; border: 1px solid #a19280;">
+                                {% for color in colores %}
+                                    <option value="{{ color[0] }}" {% if color[0] == mueble.id_color %}selected{% endif %}>{{ color[1] }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group mb-3">
+                            <label for="tipo" style="color: #81705f;">Tipo:</label>
+                            <select class="form-control" id="tipo" name="tipo" required style="background-color: #fff8e4; border: 1px solid #a19280;">
+                                {% for tipo in tipos %}
+                                    <option value="{{ tipo[0] }}" {% if tipo[0] == mueble.id_tipo %}selected{% endif %}>{{ tipo[1] }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group mb-3">
+                            <label for="alto" style="color: #81705f;">Alto:</label>
+                            <input type="number" class="form-control" id="alto" name="alto" value="{{ mueble[2] }}" required style="background-color: #fff8e4; border: 1px solid #a19280;">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group mb-3">
+                            <label for="largo" style="color: #81705f;">Largo:</label>
+                            <input type="number" class="form-control" id="largo" name="largo" value="{{ mueble[3] }}" required style="background-color: #fff8e4; border: 1px solid #a19280;">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group mb-3">
+                            <label for="ancho" style="color: #81705f;">Ancho:</label>
+                            <input type="number" class="form-control" id="ancho" name="ancho" value="{{ mueble[4] }}" required style="background-color: #fff8e4; border: 1px solid #a19280;">
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary" style="background-color: #81705f; border: none;">Guardar Cambios</button>
+                    <a href="{{ url_for('listar_muebles') }}" class="btn btn-secondary" style="background-color: #a19280; border: none;">Volver al Panel</a>
+                </div>
+            </form>
+        </div>
     </div>
-    <div class="form-group">
-        <label for="material">Material:</label>
-        <select class="form-control" id="material" name="material" required>
-            {% for material in materiales %}
-                <option value="{{ material[0] }}" {% if material[0] == mueble.id_material %}selected{% endif %}>{{ material[1] }}</option>
-            {% endfor %}
-        </select>
-    </div>
-    <div class="form-group">
-        <label for="color">Color:</label>
-        <select class="form-control" id="color" name="color" required>
-            {% for color in colores %}
-                <option value="{{ color[0] }}" {% if color[0] == mueble.id_color %}selected{% endif %}>{{ color[1] }}</option>
-            {% endfor %}
-        </select>
-    </div>
-    <div class="form-group">
-        <label for="tipo">Tipo:</label>
-        <select class="form-control" id="tipo" name="tipo" required>
-            {% for tipo in tipos %}
-                <option value="{{ tipo[0] }}" {% if tipo[0] == mueble.id_tipo %}selected{% endif %}>{{ tipo[1] }}</option>
-            {% endfor %}
-        </select>
-    </div>
-    <div class="form-group">
-        <label for="alto">Alto:</label>
-        <input type="number" class="form-control" id="alto" name="alto" value="{{ mueble[2] }}" required>
-    </div>
-    <div class="form-group">
-        <label for="largo">Largo:</label>
-        <input type="number" class="form-control" id="largo" name="largo" value="{{ mueble[3] }}" required>
-    </div>
-    <div class="form-group">
-        <label for="ancho">Ancho:</label>
-        <input type="number" class="form-control" id="ancho" name="ancho" value="{{ mueble[4] }}" required>
-    </div>
-    <button type="submit" class="btn btn-primary">Guardar Cambios</button>
-</form>
-<a href="{{ url_for('listar_muebles') }}" class="btn btn-secondary">Volver al Panel</a>
 {% endblock %}

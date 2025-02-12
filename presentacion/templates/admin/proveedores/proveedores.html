@@ -3,57 +3,79 @@
 {% block title %}Gestión de Proveedores{% endblock %}
 
 {% block content %}
-    <h1>Gestión de Proveedores</h1>
-    <a href="{{ url_for('admin_dashboard') }}" class="btn btn-secondary">Volver al Panel</a>
-    <br><br>
-    
-    <table class="table">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nombre</th>
-                <th>Dirección</th>
-                <th>Teléfono</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for proveedor in proveedores %}
-            <tr>
-                <td>{{ proveedor[0] }}</td>
-                <td>{{ proveedor[1] }}</td>
-                <td>{{ proveedor[2] }}</td>
-                <td>{{ proveedor[3] }}</td>
-                <td>
-                    <a href="{{ url_for('editar_proveedor', id=proveedor[0]) }}" class="btn btn-warning">Editar</a>
-                    <a href="{{ url_for('eliminar_proveedor', id=proveedor[0]) }}" class="btn btn-danger" onclick="return confirm('¿Estás seguro de eliminar este proveedor?')">Eliminar</a>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    
-    <h2>Agregar Nuevo Proveedor</h2>
-    <form method="POST" action="{{ url_for('agregar_proveedor') }}">
-        <div class="form-group">
-            <label for="cliente_id">ID del proveedor:</label>
-            <input type="text" class="form-control" id="id" name="id" required>
-        </div>
-        <div class="form-group">
-            <label for="nombre">Nombre:</label>
-            <input type="text" class="form-control" id="nombre" name="nombre" required>
-        </div>
-        <div class="form-group">
-            <label for="direccion">Dirección:</label>
-            <input type="text" class="form-control" id="direccion" name="direccion">
-        </div>
-        <div class="form-group">
-            <label for="telefono">Teléfono:</label>
-            <input type="text" class="form-control" id="telefono" name="telefono">
-        </div>
-        <button type="submit" class="btn btn-primary">Agregar</button>
-    </form>
+    <div class="container mt-4 position-relative">
+        <!-- Botón para volver al panel (esquina superior derecha) -->
+        <a href="{{ url_for('admin_dashboard') }}" class="btn btn-secondary position-absolute top-0 end-0 m-3" style="background-color: #a19280; border: none;">
+            Volver al Panel
+        </a>
 
+        <h1 class="text-center mb-4" style="color: #81705f;">Gestión de Proveedores</h1>
+
+        <!-- Tabla de proveedores -->
+        <div class="table-responsive">
+            <table class="table table-hover table-bordered" style="background-color: #fff8e4; color: #81705f;">
+                <thead class="thead-light" style="background-color: #e0d6c3;">
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Dirección</th>
+                        <th>Teléfono</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for proveedor in proveedores %}
+                    <tr>
+                        <td>{{ proveedor[0] }}</td>
+                        <td>{{ proveedor[1] }}</td>
+                        <td>{{ proveedor[2] }}</td>
+                        <td>{{ proveedor[3] }}</td>
+                        <td>
+                            <a href="{{ url_for('editar_proveedor', id=proveedor[0]) }}" class="btn btn-warning btn-sm" style="background-color: #c0b4a1; border: none;">Editar</a>
+                            <a href="{{ url_for('eliminar_proveedor', id=proveedor[0]) }}" class="btn btn-danger btn-sm" style="background-color: #81705f; border: none;" onclick="return confirm('¿Estás seguro de eliminar este proveedor?')">Eliminar</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Formulario para agregar nuevo proveedor -->
+        <h2 class="mt-5 mb-3" style="color: #81705f;">Agregar Nuevo Proveedor</h2>
+        <form method="POST" action="{{ url_for('agregar_proveedor') }}" class="mb-5">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group mb-3">
+                        <label for="id" style="color: #81705f;">ID del proveedor:</label>
+                        <input type="text" class="form-control" id="id" name="id" required style="background-color: #fff8e4; border: 1px solid #a19280;">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group mb-3">
+                        <label for="nombre" style="color: #81705f;">Nombre:</label>
+                        <input type="text" class="form-control" id="nombre" name="nombre" required style="background-color: #fff8e4; border: 1px solid #a19280;">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group mb-3">
+                        <label for="direccion" style="color: #81705f;">Dirección:</label>
+                        <input type="text" class="form-control" id="direccion" name="direccion" style="background-color: #fff8e4; border: 1px solid #a19280;">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group mb-3">
+                        <label for="telefono" style="color: #81705f;">Teléfono:</label>
+                        <input type="text" class="form-control" id="telefono" name="telefono" style="background-color: #fff8e4; border: 1px solid #a19280;">
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary" style="background-color: #81705f; border: none;">Agregar</button>
+        </form>
+    </div>
+
+    <!-- Mensajes flash -->
     {% with messages = get_flashed_messages() %}
         {% if messages %}
             <script>
