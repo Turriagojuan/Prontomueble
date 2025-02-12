@@ -15,8 +15,8 @@
 </style>
 {% endblock %}
 {% block content %}
-<div class="container">
-    <h2 class="text-center mb-4">Seleccionar Muebles</h2>
+<div class="container mt-5">
+    <h1 class="text-center mb-4" style="color: #81705f;">Seleccionar Muebles</h1>
     <form action="{{ url_for('seleccionar_muebles') }}" method="post">
         <div class="row">
             {% for mueble in muebles %}
@@ -46,7 +46,7 @@
             {% endfor %}
         </div>
         <div class="text-center mt-4">
-            <button type="submit" class="btn btn-primary btn-lg">Continuar</button>
+            <button type="submit" class="btn btn-primary btn-lg" style="background-color: #81705f; color: #fff8e4; border: none; border-radius: 5px;">Continuar</button>
         </div>
     </form>
 </div>

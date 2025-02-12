@@ -31,9 +31,11 @@
                     </div>
                 </div>
             </div>
-            <div class="text-center">
+            <!-- Botones alineados en una fila -->
+            <div class="d-flex justify-content-center gap-3">
                 <button type="submit" class="btn btn-primary" style="background-color: #81705f; border: none;">Actualizar Reportes</button>
                 <a href="{{ url_for('admin_dashboard') }}" class="btn btn-secondary" style="background-color: #a19280; border: none;">Volver al Panel</a>
+                <button onclick="window.print()" class="btn btn-primary" style="background-color: #81705f; border: none;">Imprimir Factura</button>
             </div>
         </form>
     </div>
