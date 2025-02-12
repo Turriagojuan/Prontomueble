@@ -6,32 +6,7 @@ class MuebleDAO:
         conexion = Conexion.obtener_conexion()
         cursor = conexion.cursor()
         cursor.execute("""
-        SELECT 
-    m.id_mueble AS ID,
-    m.nombre AS Nombre,
-    m.alto AS Alto,
-    m.largo AS Largo,
-    m.ancho AS Ancho,
-    ma.nombre_mat AS Material,
-    c.nombre_color AS Color,
-    t.nombre AS Tipo,
-    s.preciou AS Precio,
-    s.cantidad AS Cantidad,
-    p.nombre AS Proveedor
-FROM 
-    mueble m
-JOIN 
-    material ma ON m.id_material = ma.id_material
-JOIN 
-    color c ON m.id_color = c.id_color
-JOIN 
-    tipo t ON m.id_tipo = t.id_tipo
-JOIN 
-    suministra s ON m.id_mueble = s.id_mueble
-JOIN 
-    proveedor p ON s.id_proveedor = p.id_proveedor
-GROUP BY 
-    m.id_mueble, ma.nombre_mat, c.nombre_color, t.nombre, s.preciou, s.cantidad, p.nombre;
+      SELECT * FROM vista_muebles
                         """)
         muebles = cursor.fetchall()
         cursor.close()

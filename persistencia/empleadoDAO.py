@@ -67,8 +67,7 @@ class EmpleadoDAO:
         conexion = Conexion.obtener_conexion()
         cursor = conexion.cursor()
         cursor.execute("""
-            SELECT e.id_empleado, e.nombre, e.apellido, e.correo, c.cargo AS cargo
-            FROM empleado e JOIN cargo c ON e.id_cargo = c.id_cargo
+            SELECT * FROM vista_empleados
         """)
         empleados = cursor.fetchall()
         cursor.close()

@@ -3,16 +3,20 @@
 {% block title %}Confirmar Cliente{% endblock %}
 
 {% block content %}
-    <h1>Confirmar Cliente</h1>
-    <p>Por favor, confirma los datos del cliente:</p>
-    <p>Nombre: {{ cliente[1] }} {{ cliente[2] }}</p>
-    <p>Correo: {{ cliente[4] }}</p>
-    <p>Dirección: {{ cliente[3] }}</p>
+<div class="container mt-4">
+    <h1 class="text-center mb-4" style="color: #81705f;">Confirmar Cliente</h1>
+    
+    <div class="card p-4 mb-4" style="background-color: #e0d6c3; border: none; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);">
+        <p><strong>Nombre:</strong> {{ cliente[1] }} {{ cliente[2] }}</p>
+        <p><strong>Correo:</strong> {{ cliente[4] }}</p>
+        <p><strong>Dirección:</strong> {{ cliente[3] }}</p>
+        <p style="color: #81705f;">Por favor, verifique que sus datos esten bien</p>
+    </div>
 
-    <div class="container">
-        <h2>Resumen de la Compra</h2>
-        <table class="table">
-            <thead>
+    <div class="card p-4 mb-4" style="background-color: #e0d6c3; border: none; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);">
+        <h2 class="mb-3" style="color: #81705f;">Resumen de la Compra</h2>
+        <table class="table table-hover" style="background-color: #fff8e4; color: #81705f;">
+            <thead style="background-color: #c0b4a1;">
                 <tr>
                     <th>Nombre</th>
                     <th>Cantidad</th>
@@ -31,19 +35,20 @@
                 {% endfor %}
             </tbody>
         </table>
-        <h3>Total: ${{ total }}</h3>
-        
+        <h3 style="color: #81705f;">Total: ${{ total }}</h3>
         <form action="{{ url_for('pago') }}" method="post">
             <input type="hidden" name="id_cliente" value="{{ cliente[0] }}">
-            
-            <label for="metodo_pago">Selecciona el método de pago:</label>
-            <select name="metodo_pago" id="metodo_pago" class="form-control" required>
+            <label for="metodo_pago" style="color: #81705f;">Selecciona el método de pago:</label>
+            <select name="metodo_pago" id="metodo_pago" class="form-control" style="background-color: #fff8e4; border: 1px solid #a19280;" required>
                 {% for metodo in metodos_pago %}
                     <option value="{{ metodo[0] }}">{{ metodo[1] }}</option>
                 {% endfor %}
             </select>
-            
-            <button type="submit" class="btn btn-primary mt-3">Confirmar y Proceder</button>
+            <div class="d-flex justify-content-center gap-3 mt-3">
+                <button type="submit" class="btn btn-primary" style="background-color: #81705f; border: none;">Confirmar y Proceder</button>
+                <a href="{{ url_for('index') }}" class="btn btn-secondary" style="background-color: #a19280; border: none;">Cancelar</a>
+            </div>
         </form>
     </div>
+</div>
 {% endblock %}
