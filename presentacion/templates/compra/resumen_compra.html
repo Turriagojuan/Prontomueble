@@ -3,20 +3,18 @@
 {% block title %}Confirmar Cliente{% endblock %}
 
 {% block content %}
-<div class="container mt-4">
-    <h1 class="text-center mb-4" style="color: #81705f;">Confirmar Cliente</h1>
-    
-    <div class="card p-4 mb-4" style="background-color: #e0d6c3; border: none; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);">
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Confirmar Cliente</h1>
+    <div class="card p-4" style="background-color: #e0d6c3; border: none; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);">
         <p><strong>Nombre:</strong> {{ cliente[1] }} {{ cliente[2] }}</p>
         <p><strong>Correo:</strong> {{ cliente[4] }}</p>
         <p><strong>Dirección:</strong> {{ cliente[3] }}</p>
-        <p style="color: #81705f;">Por favor, verifique que sus datos esten bien</p>
     </div>
 
-    <div class="card p-4 mb-4" style="background-color: #e0d6c3; border: none; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);">
-        <h2 class="mb-3" style="color: #81705f;">Resumen de la Compra</h2>
-        <table class="table table-hover" style="background-color: #fff8e4; color: #81705f;">
-            <thead style="background-color: #c0b4a1;">
+    <div class="card mt-4 p-4" style="background-color: #e0d6c3; border: none; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);">
+        <h2 class="text-center mb-4">Resumen de la Compra</h2>
+        <table class="table table-hover">
+            <thead class="table-dark">
                 <tr>
                     <th>Nombre</th>
                     <th>Cantidad</th>
@@ -35,19 +33,23 @@
                 {% endfor %}
             </tbody>
         </table>
-        <h3 style="color: #81705f;">Total: ${{ total }}</h3>
+        <h3 class="text-end">Total: ${{ total }}</h3>
+    </div>
+
+    <div class="card mt-4 p-4" style="background-color: #e0d6c3; border: none; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);">
         <form action="{{ url_for('pago') }}" method="post">
             <input type="hidden" name="id_cliente" value="{{ cliente[0] }}">
-            <label for="metodo_pago" style="color: #81705f;">Selecciona el método de pago:</label>
-            <select name="metodo_pago" id="metodo_pago" class="form-control" style="background-color: #fff8e4; border: 1px solid #a19280;" required>
-                {% for metodo in metodos_pago %}
-                    <option value="{{ metodo[0] }}">{{ metodo[1] }}</option>
-                {% endfor %}
-            </select>
-            <div class="d-flex justify-content-center gap-3 mt-3">
-                <button type="submit" class="btn btn-primary" style="background-color: #81705f; border: none;">Confirmar y Proceder</button>
-                <a href="{{ url_for('index') }}" class="btn btn-secondary" style="background-color: #a19280; border: none;">Cancelar</a>
+            
+            <div class="mb-3">
+                <label for="metodo_pago" class="form-label">Selecciona el método de pago:</label>
+                <select name="metodo_pago" id="metodo_pago" class="form-control" required>
+                    {% for metodo in metodos_pago %}
+                        <option value="{{ metodo[0] }}">{{ metodo[1] }}</option>
+                    {% endfor %}
+                </select>
             </div>
+            
+            <button type="submit" class="btn btn-primary w-100">Confirmar y Proceder</button>
         </form>
     </div>
 </div>
