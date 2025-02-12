@@ -63,7 +63,6 @@ class EmpleadoDAO:
         return empleado
 
     @classmethod
-    @classmethod
     def obtener_todos_con_cargo(cls):
         conexion = Conexion.obtener_conexion()
         cursor = conexion.cursor()

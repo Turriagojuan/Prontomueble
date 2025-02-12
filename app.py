@@ -2,14 +2,16 @@ from flask import Flask, render_template, request, redirect, url_for, session, f
 from persistencia.conexion import Conexion
 from persistencia.proveedorDAO import ProveedorDAO
 from persistencia.empleadoDAO import EmpleadoDAO
-from persistencia.clienteDAO import ClienteDAO
-from persistencia.muebleDAO import MuebleDAO
 from persistencia.cargoDAO import CargoDAO
 from persistencia.tipoDAO import TipoDAO
 from persistencia.colorDAO import ColorDAO
 from persistencia.materialDAO import MaterialDAO
 from persistencia.suministraDAO import SuministraDAO
 from persistencia.reporteDAO import ReporteDAO
+from persistencia.clienteDAO import ClienteDAO
+from persistencia.muebleDAO import MuebleDAO
+from persistencia.ventaDAO import VentaDAO
+from persistencia.medioDAO import MedioDAO
 
 
 app = Flask(__name__, template_folder="presentacion/templates")
@@ -229,6 +231,95 @@ def graficas():
     anio = request.args.get('anio', default=2023, type=int)
     muebles_top = ReporteDAO.muebles_mas_vendidos(mes, anio)
     return render_template('admin/graficas.html', muebles_top=muebles_top)
+
+
+#Compra
+
+@app.route('/iniciar_compra/<int:id_mueble>', methods=['GET', 'POST'])
+def iniciar_compra(id_mueble):
+    if 'empleado_id' not in session:
+        return redirect(url_for('login'))
+    if request.method == 'POST':
+        id_cliente = request.form['id_cliente']
+        cliente = ClienteDAO.obtener_por_id(id_cliente)
+        if cliente:
+            session['id_cliente'] = id_cliente
+            session['id_mueble'] = id_mueble
+            return redirect(url_for('seleccionar_muebles'))
+        return render_template('compra/compra.html', error='Cliente no encontrado', id_mueble=id_mueble)
+    return render_template('compra/compra.html', id_mueble=id_mueble)
+
+
+@app.route('/seleccionar_muebles', methods=['GET', 'POST'])
+def seleccionar_muebles():
+    if 'empleado_id' not in session or 'id_cliente' not in session:
+        return redirect(url_for('iniciar_compra'))
+    
+    muebles = MuebleDAO.obtener_todos()
+    
+    if request.method == 'POST':
+        seleccionados = request.form.getlist('muebles')
+        cantidades = request.form.getlist('cantidades')
+        session['carrito'] = list(zip(seleccionados, cantidades))
+        return redirect(url_for('resumen_compra'))
+    
+    return render_template('compra/seleccionar_muebles.html', muebles=muebles)
+
+@app.route('/resumen_compra', methods=['GET', 'POST'])
+def resumen_compra():
+    if 'empleado_id' not in session or 'id_cliente' not in session or 'carrito' not in session:
+        return redirect(url_for('iniciar_compra'))
+    
+    metodos_pago = MedioDAO.obtener_todos()
+    
+    id_cliente = session['id_cliente']
+    cliente = ClienteDAO.obtener_por_id(id_cliente)
+    carrito = session['carrito']
+    muebles = [(MuebleDAO.obtener_por_id(m[0]), int(m[1])) for m in carrito]
+    total = sum(mueble[8] * cantidad for mueble, cantidad in muebles)
+    
+    if request.method == 'POST':
+        return redirect(url_for('pago'))
+    
+    return render_template('compra/resumen_compra.html', cliente=cliente, muebles=muebles, total=total, metodos_pago=metodos_pago)
+@app.route('/pago', methods=['GET', 'POST'])
+def pago():
+    if 'empleado_id' not in session or 'id_cliente' not in session or 'carrito' not in session:
+        return redirect(url_for('iniciar_compra'))
+    
+    metodos_pago = MedioDAO.obtener_todos()
+    
+    if request.method == 'POST':
+        metodo_pago = request.form['metodo_pago']
+        id_cliente = session['id_cliente']
+        id_empleado = session['empleado_id']
+        carrito = session['carrito']
+        cliente = ClienteDAO.obtener_por_id(id_cliente)
+        # Crear una nueva venta
+        id_venta = VentaDAO.crear_venta(id_cliente, id_empleado, metodo_pago)
+        muebles = [(MuebleDAO.obtener_por_id(m[0]), int(m[1])) for m in carrito]
+        total = sum(mueble[8] * cantidad for mueble, cantidad in muebles)
+        # Insertar detalles de la venta
+        for id_mueble, cantidad in carrito:
+            VentaDAO.insertar_detalle_venta(id_venta, id_mueble, cantidad)
+        
+        # Limpiar el carrito después de la compra
+        session.pop('carrito', None)
+        flash('Compra realizada con éxito.')
+        return redirect(url_for('factura', id_venta=id_venta))
+    
+    return render_template('compra/pago.html', metodos_pago=metodos_pago)
+
+@app.route('/factura/<int:id_venta>')
+def factura(id_venta):
+    if 'empleado_id' not in session:
+        return redirect(url_for('login'))
+    
+    venta = VentaDAO.obtener_por_id(id_venta)
+    detalles = VentaDAO.obtener_detalles_venta(id_venta)
+    cliente = ClienteDAO.obtener_por_id(session['id_cliente'])
+    
+    return render_template('compra/factura.html', cliente=cliente, venta=venta, detalles=detalles)
+
 if __name__ == '__main__':
     app.run(debug=True)
-

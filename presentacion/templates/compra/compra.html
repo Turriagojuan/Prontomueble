@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+    <h2>Iniciar Compra</h2>
+    <form action="{{ url_for('iniciar_compra', id_mueble=id_mueble) }}" method="post">
+        <label for="id_cliente">ID Cliente:</label>
+        <input type="text" name="id_cliente" required>
+        <button type="submit" class="btn btn-primary">Continuar</button>
+    </form>
+</div>
+{% endblock %}

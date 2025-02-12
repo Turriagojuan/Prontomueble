@@ -16,10 +16,10 @@
                 <th>Color</th>
                 <th>Precio</th>
                 <th>Cantidad</th>
-                <th>Tipo</th>
                 <th>Alto</th>
                 <th>Largo</th>
                 <th>Ancho</th>
+                <th>Tipo</th>
                 <th>Proveedor</th>
                 <th>Acciones</th>
             </tr>
@@ -29,14 +29,14 @@
             <tr>
                 <td>{{ mueble[0] }}</td>
                 <td>{{ mueble[1] }}</td>
+                <td>{{ mueble[5] }}</td>
+                <td>{{ mueble[6] }}</td>
+                <td>{{ mueble[8] }}</td>
+                <td>{{ mueble[9] }}</td>
                 <td>{{ mueble[2] }}</td>
                 <td>{{ mueble[3] }}</td>
                 <td>{{ mueble[4] }}</td>
-                <td>{{ mueble[5] }}</td>
-                <td>{{ mueble[6] }}</td>
                 <td>{{ mueble[7] }}</td>
-                <td>{{ mueble[8] }}</td>
-                <td>{{ mueble[9] }}</td>
                 <td>{{ mueble[10] }}</td>
                 <td>
                     <a href="{{ url_for('editar_mueble', id=mueble[0]) }}" class="btn btn-warning">Editar</a>

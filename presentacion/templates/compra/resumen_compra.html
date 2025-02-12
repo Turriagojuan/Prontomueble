@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block title %}Confirmar Cliente{% endblock %}
+
+{% block content %}
+    <h1>Confirmar Cliente</h1>
+    <p>Por favor, confirma los datos del cliente:</p>
+    <p>Nombre: {{ cliente[1] }} {{ cliente[2] }}</p>
+    <p>Correo: {{ cliente[4] }}</p>
+    <p>Dirección: {{ cliente[3] }}</p>
+
+    <div class="container">
+        <h2>Resumen de la Compra</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Cantidad</th>
+                    <th>Precio Unitario</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for mueble, cantidad in muebles %}
+                <tr>
+                    <td>{{ mueble[1] }}</td>
+                    <td>{{ cantidad }}</td>
+                    <td>${{ mueble[8] }}</td>
+                    <td>${{ mueble[8] * cantidad }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <h3>Total: ${{ total }}</h3>
+        
+        <form action="{{ url_for('pago') }}" method="post">
+            <input type="hidden" name="id_cliente" value="{{ cliente[0] }}">
+            
+            <label for="metodo_pago">Selecciona el método de pago:</label>
+            <select name="metodo_pago" id="metodo_pago" class="form-control" required>
+                {% for metodo in metodos_pago %}
+                    <option value="{{ metodo[0] }}">{{ metodo[1] }}</option>
+                {% endfor %}
+            </select>
+            
+            <button type="submit" class="btn btn-primary mt-3">Confirmar y Proceder</button>
+        </form>
+    </div>
+{% endblock %}
