@@ -2,7 +2,7 @@ import psycopg2
 from psycopg2 import pool
 
 class Conexion:
-    _DATABASE = "prontom"
+    _DATABASE = "prontomueble"
     _USER = "postgres"
     _PASSWORD = "1234"
     _HOST = "localhost"

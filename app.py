@@ -259,8 +259,12 @@ def seleccionar_muebles():
     
     if request.method == 'POST':
         seleccionados = request.form.getlist('muebles')
-        cantidades = request.form.getlist('cantidades')
-        session['carrito'] = list(zip(seleccionados, cantidades))
+        carrito = []
+        for id_mueble in seleccionados:
+            cantidad = request.form.get(f'cantidades_{id_mueble}')
+            if id_mueble and cantidad:
+                carrito.append((id_mueble, cantidad))
+        session['carrito'] = carrito
         return redirect(url_for('resumen_compra'))
     
     return render_template('compra/seleccionar_muebles.html', muebles=muebles)
@@ -297,11 +301,12 @@ def pago():
         cliente = ClienteDAO.obtener_por_id(id_cliente)
         # Crear una nueva venta
         id_venta = VentaDAO.crear_venta(id_cliente, id_empleado, metodo_pago)
-        muebles = [(MuebleDAO.obtener_por_id(m[0]), int(m[1])) for m in carrito]
+        muebles = [(MuebleDAO.obtener_por_id(m[0]), int(m[1])) for m in carrito if m[0] and m[1]]
         total = sum(mueble[8] * cantidad for mueble, cantidad in muebles)
         # Insertar detalles de la venta
         for id_mueble, cantidad in carrito:
-            VentaDAO.insertar_detalle_venta(id_venta, id_mueble, cantidad)
+            if id_mueble and cantidad:
+                VentaDAO.insertar_detalle_venta(id_venta, id_mueble, cantidad)
         
         # Limpiar el carrito después de la compra
         session.pop('carrito', None)
